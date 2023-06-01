@@ -10,6 +10,12 @@ int Simulation::getLiveNeighbours(int x, int y, std::vector<std::vector<bool>>& 
 
 			int nx = x + i;
 			int ny = y + j;
+
+			if (nx < 0) nx = GRID_WIDTH - 1;
+			if (ny < 0) ny = GRID_HEIGHT - 1;
+			if (nx > GRID_WIDTH - 1) nx = 0;
+			if (ny > GRID_HEIGHT - 1) ny = 0;
+
 			if (nx >= 0 && ny >= 0 && nx < GRID_WIDTH && ny < GRID_HEIGHT && grid[nx][ny]) {
 				liveNeighbours++;
 			}
