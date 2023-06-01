@@ -3,10 +3,14 @@
 
 #include <SDL.h>
 #include <vector>
+#include <string>
 
 class Renderer {
 public:
-	void renderGrid(SDL_Renderer* renderer, const std::vector<std::vector<bool>>& grid);
+	void renderGrid(SDL_Renderer* renderer, const std::vector<std::vector<bool>>& grid, bool paused);
+	void drawText(SDL_Renderer* renderer, const std::string& text, int x, int y, int fontSize);
+private:
+	void drawTitleAndInstructions(SDL_Renderer* renderer, bool paused);
 };
 
 #endif

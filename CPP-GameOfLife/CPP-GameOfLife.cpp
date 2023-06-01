@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <vector>
 
 #include "size_settings.h"
@@ -14,6 +15,7 @@ vector<vector<bool>> grid(GRID_WIDTH, vector<bool>(GRID_HEIGHT, false));
 int main(int argc, char* argv[])
 {
 	SDL_Init(SDL_INIT_VIDEO); // Initialize SDL2
+	TTF_Init(); // Initialize TTF
 
 	SDL_Window* window;
 	SDL_Renderer* sdl_renderer;
@@ -49,7 +51,7 @@ int main(int argc, char* argv[])
 
 		SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 255);
 		SDL_RenderClear(sdl_renderer);
-		renderer.renderGrid(sdl_renderer, grid);
+		renderer.renderGrid(sdl_renderer, grid, paused);
 		SDL_RenderPresent(sdl_renderer);
 		SDL_Delay(100);
 	}
@@ -58,6 +60,7 @@ int main(int argc, char* argv[])
 	SDL_DestroyRenderer(sdl_renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+	TTF_Quit();
 
 	return 0;
 }
