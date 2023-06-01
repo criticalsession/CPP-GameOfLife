@@ -140,6 +140,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CPP-GameOfLife.cpp" />
+    <ClCompile Include="input_handler.cpp" />
+    <ClCompile Include="input_handler.h" />
+    <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="Simulation.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="renderer.h" />
+    <ClInclude Include="simulation.h" />
+    <ClInclude Include="size_settings.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
