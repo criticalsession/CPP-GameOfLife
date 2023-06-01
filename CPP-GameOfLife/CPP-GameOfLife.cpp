@@ -24,7 +24,7 @@ int getLiveNeighbours(int x, int y) {
 			if (i == 0 && j == 0) continue;
 
 			int nx = x + i;
-			int ny = y + i;
+			int ny = y + j;
 			if (nx >= 0 && ny >= 0 && nx < GRID_WIDTH && ny < GRID_HEIGHT && grid[nx][ny]) {
 				liveNeighbours++;
 			}
