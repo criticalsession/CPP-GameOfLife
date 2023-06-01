@@ -13,7 +13,7 @@ using std::vector;
 vector<vector<bool>> grid(GRID_WIDTH, vector<bool>(GRID_HEIGHT, false));
 
 // FPS
-const int FPS = 24;
+const int FPS = 16;
 const int frameDelay = 1000 / FPS;
 
 int main(int argc, char* argv[])

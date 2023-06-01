@@ -6,9 +6,9 @@
 
 class InputHandler {
 public:
-	void handleInput(SDL_Event& event, std::vector<std::vector<bool>> &grid, bool &running, bool &paused);
+	void handleInput(SDL_Event& event, std::vector<std::vector<bool>>& grid, bool& running, bool& paused);
 private:
-	void flipCell(int x, int y, std::vector<std::vector<bool>> &grid);
+	void flipCell(int x, int y, std::vector<std::vector<bool>>& grid);
 };
 
 #endif
