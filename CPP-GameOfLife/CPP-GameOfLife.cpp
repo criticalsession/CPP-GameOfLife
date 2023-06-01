@@ -48,11 +48,13 @@ int main(int argc, char* argv[])
 
 	int frameDelay = 1000 / fps;
 
+	renderer.changeCursor(false);
+
 	while (running) {
 		frameStart = SDL_GetTicks();
 
 		while (SDL_PollEvent(&event)) {
-			inputHandler.handleInput(event, grid, running, paused, fps, frameDelay);
+			inputHandler.handleInput(event, grid, running, paused, fps, frameDelay, renderer);
 		}
 
 		if (!paused) { // do not run simulation

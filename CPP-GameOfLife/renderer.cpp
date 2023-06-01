@@ -25,8 +25,9 @@ void Renderer::drawTitleAndInstructions(SDL_Renderer* renderer, bool paused, int
 	if (paused) {
 		drawText(renderer, "Conway's Game of Life (PAUSED)", 20, 15, 24);
 
-		drawText(renderer, "Click to flip cells. Press SPACE to unpause.", 20, 45, 14);
-		drawText(renderer, "UP/DOWN to adjust FPS. Current: " + std::to_string(fps), 20, 65, 14);
+		drawText(renderer, "Click to flip cells.", 20, 50, 14);
+		drawText(renderer, "[C] to clear.", 150, 50, 14);
+		drawText(renderer, "[UP]/[DOWN] to adjust FPS. Current: " + std::to_string(fps) + ".", 20, 70, 14);
 	}
 	else {
 		drawText(renderer, "Conway's Game of Life", 20, 25, 24);
@@ -34,6 +35,7 @@ void Renderer::drawTitleAndInstructions(SDL_Renderer* renderer, bool paused, int
 		drawText(renderer, "Press SPACE to pause and draw cells.", 20, 55, 14);
 	}
 }
+
 void Renderer::renderGrid(SDL_Renderer* renderer, const std::vector<std::vector<bool>>& grid, bool paused, int fps) {
 	for (int x = 0; x < GRID_WIDTH; x++) {
 		for (int y = 0; y < GRID_HEIGHT; y++) {
@@ -70,4 +72,9 @@ void Renderer::renderBorders(SDL_Renderer* renderer) {
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderDrawLine(renderer, 0, TOP_PADDING, WIDTH, TOP_PADDING);
 	SDL_RenderDrawLine(renderer, 0, WINDOW_HEIGHT - BOTTOM_PADDING, WIDTH, WINDOW_HEIGHT - BOTTOM_PADDING);
+}
+
+void Renderer::changeCursor(bool toCrosshair) {
+	SDL_Cursor* cursor = SDL_CreateSystemCursor(toCrosshair ? SDL_SYSTEM_CURSOR_CROSSHAIR : SDL_SYSTEM_CURSOR_ARROW);
+	SDL_SetCursor(cursor);
 }

@@ -1,12 +1,13 @@
 #include "size_settings.h"
 #include "input_handler.h"
+#include "renderer.h"
 
 #include <SDL.h>
 #include <vector>
 
 using std::vector;
 
-void InputHandler::handleInput(SDL_Event& event, vector<vector<bool>>& grid, bool& running, bool& paused, int& fps, int& frameDelay) {
+void InputHandler::handleInput(SDL_Event& event, vector<vector<bool>>& grid, bool& running, bool& paused, int& fps, int& frameDelay, Renderer& renderer) {
 	if (event.type == SDL_QUIT) {
 		running = false;
 	}
@@ -14,11 +15,19 @@ void InputHandler::handleInput(SDL_Event& event, vector<vector<bool>>& grid, boo
 	if (event.type == SDL_KEYDOWN) {
 		if (event.key.keysym.sym == SDLK_SPACE) {
 			paused = !paused;
+			renderer.changeCursor(paused);
 		}
-		else if (event.key.keysym.sym == SDLK_UP) {
+		else if (event.key.keysym.sym == SDLK_c && paused) {
+			for (int x = 0; x < GRID_WIDTH; x++) {
+				for (int y = 0; y < GRID_HEIGHT; y++) {
+					grid[x][y] = false;
+				}
+			}
+		}
+		else if (event.key.keysym.sym == SDLK_UP && paused) {
 			if (fps < 60) frameDelay = 1000 / ++fps;
 		}
-		else if (event.key.keysym.sym == SDLK_DOWN) {
+		else if (event.key.keysym.sym == SDLK_DOWN && paused) {
 			if (fps > 1) frameDelay = 1000 / --fps;
 		}
 	}
@@ -27,10 +36,12 @@ void InputHandler::handleInput(SDL_Event& event, vector<vector<bool>>& grid, boo
 		int x, y;
 		SDL_GetMouseState(&x, &y);
 
-		int gridX = x / CELL_WIDTH;
-		int gridY = (y - TOP_PADDING) / CELL_HEIGHT;
+		if (x > 0 && y > TOP_PADDING && y < WINDOW_HEIGHT - BOTTOM_PADDING) {
+			int gridX = x / CELL_WIDTH;
+			int gridY = (y - TOP_PADDING) / CELL_HEIGHT;
 
-		flipCell(gridX, gridY, grid);
+			flipCell(gridX, gridY, grid);
+		}
 	}
 }
 
