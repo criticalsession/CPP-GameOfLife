@@ -13,8 +13,7 @@ using std::vector;
 vector<vector<bool>> grid(GRID_WIDTH, vector<bool>(GRID_HEIGHT, false));
 
 // FPS
-const int FPS = 16;
-const int frameDelay = 1000 / FPS;
+int fps = 16;
 
 int main(int argc, char* argv[])
 {
@@ -33,7 +32,7 @@ int main(int argc, char* argv[])
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
 		WIDTH,
-		HEIGHT,
+		WINDOW_HEIGHT,
 		0);
 
 	// Create SDL Renderer
@@ -46,11 +45,14 @@ int main(int argc, char* argv[])
 	SDL_Event event;
 	Uint32 frameStart;
 	int frameTime;
+
+	int frameDelay = 1000 / fps;
+
 	while (running) {
 		frameStart = SDL_GetTicks();
 
 		while (SDL_PollEvent(&event)) {
-			inputHandler.handleInput(event, grid, running, paused);
+			inputHandler.handleInput(event, grid, running, paused, fps, frameDelay);
 		}
 
 		if (!paused) { // do not run simulation
@@ -59,11 +61,11 @@ int main(int argc, char* argv[])
 
 		SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 255);
 		SDL_RenderClear(sdl_renderer);
-		renderer.renderGrid(sdl_renderer, grid, paused);
+		renderer.renderGrid(sdl_renderer, grid, paused, fps);
 		SDL_RenderPresent(sdl_renderer);
 		
 		frameTime = SDL_GetTicks() - frameStart;
-		if (frameDelay > frameTime) {
+		if (frameDelay > frameTime && !paused) {
 			SDL_Delay(frameDelay - frameTime);
 		}
 	}

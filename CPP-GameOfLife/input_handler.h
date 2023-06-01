@@ -4,9 +4,11 @@
 #include <SDL.h>
 #include <vector>
 
+using std::vector;
+
 class InputHandler {
 public:
-	void handleInput(SDL_Event& event, std::vector<std::vector<bool>>& grid, bool& running, bool& paused);
+	void handleInput(SDL_Event& event, vector<vector<bool>>& grid, bool& running, bool& paused, int& fps, int& frameDelay);
 private:
 	void flipCell(int x, int y, std::vector<std::vector<bool>>& grid);
 };

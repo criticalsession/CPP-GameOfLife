@@ -21,25 +21,25 @@ void Renderer::drawText(SDL_Renderer* renderer, const std::string& text, int x, 
 	TTF_CloseFont(font);
 }
 
-void Renderer::drawTitleAndInstructions(SDL_Renderer* renderer, bool paused) {
+void Renderer::drawTitleAndInstructions(SDL_Renderer* renderer, bool paused, int fps) {
 	if (paused) {
-		drawText(renderer, "Conway's Game of Life (PAUSED)", 20, 20, 24);
+		drawText(renderer, "Conway's Game of Life (PAUSED)", 20, 15, 24);
 
-		drawText(renderer, "Click to flip cells. Press SPACE to unpause.", 20, 50, 16);
-		drawText(renderer, "+/- to adjust FPS. Current: 24", 20, 70, 16);
+		drawText(renderer, "Click to flip cells. Press SPACE to unpause.", 20, 45, 14);
+		drawText(renderer, "UP/DOWN to adjust FPS. Current: " + std::to_string(fps), 20, 65, 14);
 	}
 	else {
-		drawText(renderer, "Conway's Game of Life", 20, 20, 24);
+		drawText(renderer, "Conway's Game of Life", 20, 25, 24);
 
-		drawText(renderer, "Press SPACE to pause and draw cells.", 20, 50, 16);
+		drawText(renderer, "Press SPACE to pause and draw cells.", 20, 55, 14);
 	}
 }
-void Renderer::renderGrid(SDL_Renderer* renderer, const std::vector<std::vector<bool>>& grid, bool paused) {
+void Renderer::renderGrid(SDL_Renderer* renderer, const std::vector<std::vector<bool>>& grid, bool paused, int fps) {
 	for (int x = 0; x < GRID_WIDTH; x++) {
 		for (int y = 0; y < GRID_HEIGHT; y++) {
 			SDL_Rect cell;
 			cell.x = x * CELL_WIDTH;
-			cell.y = y * CELL_HEIGHT;
+			cell.y = (y * CELL_HEIGHT) + TOP_PADDING;
 			cell.w = CELL_WIDTH;
 			cell.h = CELL_HEIGHT;
 
@@ -62,5 +62,12 @@ void Renderer::renderGrid(SDL_Renderer* renderer, const std::vector<std::vector<
 		}
 	}
 
-	drawTitleAndInstructions(renderer, paused);
+	drawTitleAndInstructions(renderer, paused, fps);
+	renderBorders(renderer);
+}
+
+void Renderer::renderBorders(SDL_Renderer* renderer) {
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_RenderDrawLine(renderer, 0, TOP_PADDING, WIDTH, TOP_PADDING);
+	SDL_RenderDrawLine(renderer, 0, WINDOW_HEIGHT - BOTTOM_PADDING, WIDTH, WINDOW_HEIGHT - BOTTOM_PADDING);
 }
