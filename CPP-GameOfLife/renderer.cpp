@@ -22,12 +22,15 @@ void Renderer::drawText(SDL_Renderer* renderer, const std::string& text, int x, 
 }
 
 void Renderer::drawTitleAndInstructions(SDL_Renderer* renderer, bool paused) {
-	drawText(renderer, "Conway's Game of Life", 20, 20, 24);
 	if (paused) {
+		drawText(renderer, "Conway's Game of Life (PAUSED)", 20, 20, 24);
+
 		drawText(renderer, "Click to flip cells. Press SPACE to unpause.", 20, 50, 16);
-		drawText(renderer, "PAUSED", 20, 80, 20);
+		drawText(renderer, "+/- to adjust FPS. Current: 24", 20, 70, 16);
 	}
 	else {
+		drawText(renderer, "Conway's Game of Life", 20, 20, 24);
+
 		drawText(renderer, "Press SPACE to pause and draw cells.", 20, 50, 16);
 	}
 }
@@ -44,7 +47,15 @@ void Renderer::renderGrid(SDL_Renderer* renderer, const std::vector<std::vector<
 				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // alive
 			}
 			else {
-				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // dead
+				if (!paused) SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // dead
+				else {
+					if ((x + y) % 2 == 0) {
+						SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
+					}
+					else {
+						SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
+					}
+				}
 			}
 
 			SDL_RenderFillRect(renderer, &cell);
