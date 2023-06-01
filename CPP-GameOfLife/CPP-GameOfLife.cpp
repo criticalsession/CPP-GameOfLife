@@ -12,6 +12,10 @@ using std::vector;
 // Vector grid
 vector<vector<bool>> grid(GRID_WIDTH, vector<bool>(GRID_HEIGHT, false));
 
+// FPS
+const int FPS = 24;
+const int frameDelay = 1000 / FPS;
+
 int main(int argc, char* argv[])
 {
 	SDL_Init(SDL_INIT_VIDEO); // Initialize SDL2
@@ -40,7 +44,11 @@ int main(int argc, char* argv[])
 	bool paused = false;
 
 	SDL_Event event;
+	Uint32 frameStart;
+	int frameTime;
 	while (running) {
+		frameStart = SDL_GetTicks();
+
 		while (SDL_PollEvent(&event)) {
 			inputHandler.handleInput(event, grid, running, paused);
 		}
@@ -53,7 +61,11 @@ int main(int argc, char* argv[])
 		SDL_RenderClear(sdl_renderer);
 		renderer.renderGrid(sdl_renderer, grid, paused);
 		SDL_RenderPresent(sdl_renderer);
-		SDL_Delay(100);
+		
+		frameTime = SDL_GetTicks() - frameStart;
+		if (frameDelay > frameTime) {
+			SDL_Delay(frameDelay - frameTime);
+		}
 	}
 
 	// Clean up
