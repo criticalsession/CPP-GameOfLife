@@ -10,6 +10,7 @@ public:
 	void handleInput(SDL_Event& event, bool(&grid)[GRID_WIDTH][GRID_HEIGHT], bool& running, bool& paused, int& fps, int& frameDelay, Renderer& renderer);
 private:
 	void flipCell(int x, int y, bool(&grid)[GRID_WIDTH][GRID_HEIGHT]);
+	void findAndFlipCell(int &lastGridX, int &lastGridY, bool(&grid)[GRID_WIDTH][GRID_HEIGHT]);
 };
 
 #endif

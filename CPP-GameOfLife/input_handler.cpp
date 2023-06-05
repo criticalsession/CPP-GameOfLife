@@ -40,15 +40,36 @@ void InputHandler::handleInput(SDL_Event& event, bool(&grid)[GRID_WIDTH][GRID_HE
 		}
 	}
 
+	// flip cell with mouse
+	static bool mouseHeldDown = false;
+	static int lastGridX = -1, lastGridY = -1;
+
 	if (event.type == SDL_MOUSEBUTTONDOWN && paused) {
-		int x, y;
-		SDL_GetMouseState(&x, &y);
+		findAndFlipCell(lastGridX, lastGridY, grid);
+		mouseHeldDown = true;
+	}
+	else if (event.type == SDL_MOUSEBUTTONUP) {
+		mouseHeldDown = false;
+		lastGridX = -1;
+		lastGridY = -1;
+	}
+	else if (event.type == SDL_MOUSEMOTION && mouseHeldDown && paused) {
+		findAndFlipCell(lastGridX, lastGridY, grid);
+	}
+}
 
-		if (x > 0 && y > TOP_PADDING && y < WINDOW_HEIGHT - BOTTOM_PADDING) {
-			int gridX = x / CELL_WIDTH;
-			int gridY = (y - TOP_PADDING) / CELL_HEIGHT;
+void InputHandler::findAndFlipCell(int &lastGridX, int &lastGridY, bool(&grid)[GRID_WIDTH][GRID_HEIGHT]) {
+	int x, y;
+	SDL_GetMouseState(&x, &y);
 
+	if (x > 0 && y > TOP_PADDING && y < WINDOW_HEIGHT - BOTTOM_PADDING) {
+		int gridX = x / CELL_WIDTH;
+		int gridY = (y - TOP_PADDING) / CELL_HEIGHT;
+
+		if (gridX != lastGridX || gridY != lastGridY) {
 			flipCell(gridX, gridY, grid);
+			lastGridX = gridX;
+			lastGridY = gridY;
 		}
 	}
 }
