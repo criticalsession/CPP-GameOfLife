@@ -10,8 +10,8 @@ const int WINDOW_HEIGHT = 960;
 const int HEIGHT = WINDOW_HEIGHT - TOP_PADDING - BOTTOM_PADDING;
 
 // Width and height of cells
-const int CELL_WIDTH = 10;
-const int CELL_HEIGHT = 10;
+const int CELL_WIDTH = 20;
+const int CELL_HEIGHT = 20;
 
 const int GRID_WIDTH = WIDTH / CELL_WIDTH;
 const int GRID_HEIGHT = HEIGHT / CELL_HEIGHT;

@@ -3,8 +3,8 @@
 #include <vector>
 
 #include "size_settings.h"
-#include "renderer.h"
 #include "input_handler.h"
+#include "renderer.h"
 #include "simulation.h"
 
 using std::vector;
@@ -49,6 +49,8 @@ int main(int argc, char* argv[])
 	int frameDelay = 1000 / fps;
 
 	renderer.changeCursor(false);
+	int frameUpdate = 0;
+	int lastFrameTime = 0;
 
 	while (running) {
 		frameStart = SDL_GetTicks();
@@ -64,10 +66,20 @@ int main(int argc, char* argv[])
 		SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 255);
 		SDL_RenderClear(sdl_renderer);
 		renderer.renderGrid(sdl_renderer, grid, paused, fps);
-		SDL_RenderPresent(sdl_renderer);
-		
+
 		frameTime = SDL_GetTicks() - frameStart;
-		if (frameDelay > frameTime && !paused) {
+
+		frameUpdate++;
+		if (frameUpdate == 3 || lastFrameTime == 0) {
+			lastFrameTime = frameTime;
+			frameUpdate = 0;
+		}
+
+		renderer.drawFPS(sdl_renderer, paused, lastFrameTime, fps);
+
+ 		SDL_RenderPresent(sdl_renderer);
+
+		if (fps > 0 && frameDelay > frameTime && !paused) {
 			SDL_Delay(frameDelay - frameTime);
 		}
 	}

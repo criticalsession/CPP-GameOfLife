@@ -24,11 +24,22 @@ void InputHandler::handleInput(SDL_Event& event, vector<vector<bool>>& grid, boo
 				}
 			}
 		}
+		else if (event.key.keysym.sym == SDLK_END && paused) {
+			fps = -1;
+		}
 		else if (event.key.keysym.sym == SDLK_UP && paused) {
-			if (fps < 60) frameDelay = 1000 / ++fps;
+			if (fps == -1) {
+				fps = 16;
+				frameDelay = 1000 / 16;
+			}
+			else if (fps < 60) frameDelay = 1000 / ++fps;
 		}
 		else if (event.key.keysym.sym == SDLK_DOWN && paused) {
-			if (fps > 1) frameDelay = 1000 / --fps;
+			if (fps == -1) {
+				fps = 16;
+				frameDelay = 1000 / 16;
+			}
+			else if (fps > 1) frameDelay = 1000 / --fps;
 		}
 	}
 
