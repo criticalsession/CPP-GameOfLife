@@ -3,11 +3,8 @@
 #include "renderer.h"
 
 #include <SDL.h>
-#include <vector>
 
-using std::vector;
-
-void InputHandler::handleInput(SDL_Event& event, vector<vector<bool>>& grid, bool& running, bool& paused, int& fps, int& frameDelay, Renderer& renderer) {
+void InputHandler::handleInput(SDL_Event& event, bool(&grid)[GRID_WIDTH][GRID_HEIGHT], bool& running, bool& paused, int& fps, int& frameDelay, Renderer& renderer) {
 	if (event.type == SDL_QUIT) {
 		running = false;
 	}
@@ -56,6 +53,6 @@ void InputHandler::handleInput(SDL_Event& event, vector<vector<bool>>& grid, boo
 	}
 }
 
-void InputHandler::flipCell(int x, int y, vector<vector<bool>>& grid) {
+void InputHandler::flipCell(int x, int y, bool(&grid)[GRID_WIDTH][GRID_HEIGHT]) {
 	grid[x][y] = !grid[x][y];
 }

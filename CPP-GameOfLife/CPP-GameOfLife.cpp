@@ -1,16 +1,12 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <vector>
 
 #include "size_settings.h"
 #include "input_handler.h"
 #include "renderer.h"
 #include "simulation.h"
 
-using std::vector;
-
-// Vector grid
-vector<vector<bool>> grid(GRID_WIDTH, vector<bool>(GRID_HEIGHT, false));
+bool grid[GRID_WIDTH][GRID_HEIGHT];
 
 // FPS
 int fps = 16;
@@ -26,6 +22,8 @@ int main(int argc, char* argv[])
 	InputHandler inputHandler;
 	Renderer renderer;
 	Simulation simulation;
+
+	simulation.initGrid(grid);
 
 	// Create application window
 	window = SDL_CreateWindow("Game of Life",

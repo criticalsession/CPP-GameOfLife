@@ -3,7 +3,6 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <vector>
 #include <string>
 #include <iostream>
 
@@ -41,7 +40,7 @@ void Renderer::drawTitleAndInstructions(SDL_Renderer* renderer, bool paused, int
 	}
 }
 
-void Renderer::renderGrid(SDL_Renderer* renderer, const std::vector<std::vector<bool>>& grid, bool paused, int fps) {
+void Renderer::renderGrid(SDL_Renderer* renderer, const bool(&grid)[GRID_WIDTH][GRID_HEIGHT], bool paused, int fps) {
 	for (int x = 0; x < GRID_WIDTH; x++) {
 		for (int y = 0; y < GRID_HEIGHT; y++) {
 			SDL_Rect cell;

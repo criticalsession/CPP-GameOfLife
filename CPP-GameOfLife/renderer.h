@@ -1,13 +1,13 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include "size_settings.h"
 #include <SDL.h>
-#include <vector>
 #include <string>
 
 class Renderer {
 public:
-	void renderGrid(SDL_Renderer* renderer, const std::vector<std::vector<bool>>& grid, bool paused, int fps);
+	void renderGrid(SDL_Renderer* renderer, const bool(&grid)[GRID_WIDTH][GRID_HEIGHT], bool paused, int fps);
 	void drawText(SDL_Renderer* renderer, const std::string& text, int x, int y, int fontSize);
 	void drawText(SDL_Renderer* renderer, const std::string& text, int x, int y, int fontSize, SDL_Color color);
 	void changeCursor(bool toCrosshair);

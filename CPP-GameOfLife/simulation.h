@@ -1,12 +1,13 @@
 #ifndef SIMULATION_H
 #define SIMULATION_H
 
-#include <vector>
+#include "size_settings.h"
 
 class Simulation {
 public:
-	void updateGrid(std::vector<std::vector<bool>>& grid);
+	void updateGrid(bool(&grid)[GRID_WIDTH][GRID_HEIGHT]);
+	void initGrid(bool(&grid)[GRID_WIDTH][GRID_HEIGHT]);
 private:
-	int getLiveNeighbours(int x, int y, std::vector<std::vector<bool>>& grid);
+	int getLiveNeighbours(int x, int y, bool(&grid)[GRID_WIDTH][GRID_HEIGHT]);
 };
 #endif

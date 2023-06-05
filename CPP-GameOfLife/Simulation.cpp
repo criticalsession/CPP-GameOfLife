@@ -1,8 +1,7 @@
 #include "simulation.h"
 #include "size_settings.h"
-#include <vector>
 
-int Simulation::getLiveNeighbours(int x, int y, std::vector<std::vector<bool>>& grid) {
+int Simulation::getLiveNeighbours(int x, int y, bool(&grid)[GRID_WIDTH][GRID_HEIGHT]) {
 	int liveNeighbours = 0;
 	for (int i = -1; i <= 1; i++) {
 		for (int j = -1; j <= 1; j++) {
@@ -25,8 +24,9 @@ int Simulation::getLiveNeighbours(int x, int y, std::vector<std::vector<bool>>& 
 	return liveNeighbours;
 }
 
-void Simulation::updateGrid(std::vector<std::vector<bool>> &grid) {
-	std::vector<std::vector<bool>> newGrid = grid;
+void Simulation::updateGrid(bool(&grid)[GRID_WIDTH][GRID_HEIGHT]) {
+	bool newGrid[GRID_WIDTH][GRID_HEIGHT];
+
 	for (int x = 0; x < GRID_WIDTH; x++) {
 		for (int y = 0; y < GRID_HEIGHT; y++) {
 			int liveNeighbours = getLiveNeighbours(x, y, grid);
@@ -34,14 +34,29 @@ void Simulation::updateGrid(std::vector<std::vector<bool>> &grid) {
 				if (liveNeighbours < 2 || liveNeighbours > 3) {
 					newGrid[x][y] = false; // cell died
 				}
+				else newGrid[x][y] = grid[x][y];
 			}
 			else {
 				if (liveNeighbours == 3) {
 					newGrid[x][y] = true; // cell becomes alive
 				}
+				else newGrid[x][y] = grid[x][y];
 			}
 		}
 	}
 
-	grid = newGrid;
+	// Copy newGrid back to grid
+	for (int i = 0; i < GRID_WIDTH; ++i) {
+		for (int j = 0; j < GRID_HEIGHT; ++j) {
+			grid[i][j] = newGrid[i][j];
+		}
+	}
+}
+
+void Simulation::initGrid(bool(&grid)[GRID_WIDTH][GRID_HEIGHT]) {
+	for (int x = 0; x < GRID_WIDTH; x++) {
+		for (int y = 0; y < GRID_HEIGHT; y++) {
+			grid[x][y] = false;
+		}
+	}
 }
